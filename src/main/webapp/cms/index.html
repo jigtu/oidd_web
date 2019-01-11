@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>xxxx管理平台</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" href="layui-v2.3.0-rc1/layui/css/layui.css" media="all" />
+	<link rel="stylesheet" href="style/index.css" media="all" id="index_css"/>
+	<link rel="stylesheet" href="css/global.css" media="all">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+</head>
+<body style="overflow:hidden;">
+<div class="layui-layout layui-layout-admin">
+	<div class="layui-header back_blue"style="position: relative;">
+		<i class="layui-icon layui-icon-shrink-right navBtn"></i>
+		<div class="layui_auto" id="title">
+
+		</div>
+		<ul class="layui-nav nav_ha" style="float: right;">
+			<li class="layui-nav-item" >
+				<a href="javascript:;">
+					<span>欢迎：</span>
+					<span id="username"></span>
+				</a>
+				<ul class="layui-nav-child" style="left:auto;right: 0;top: 50px;background: #fff;">
+					<!-- <li  class="site_active" data-title="个人中心"  data-url="personalCenter/personInfor.html" data-id="7101"><a>个人中心</a></li>
+					<li  class="site_active" data-title="修改密码"  data-url="personalCenter/password.html" data-id="7111"><a>修改密码</a></li>
+					<li  class="site_active" data-title="系统配置"  data-url="personalCenter/systemConfiguration.html" data-id="7103"><a>系统配置</a></li> -->
+					<!-- <li class="skin"><a>更换皮肤</a></li> -->
+					<li id="logOut"><a>退出登录</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+    <div id="admin-navbar-side" style="display: none;"></div>
+	<div class="layui-side-scroll" id="left_ul_one" ></div>
+	<div class="layui-body" style="bottom: 0;left: 200px; overflow:hidden;" id="top_tabs_box">
+		<div class="layui-tab admin-nav-card layui-tab-brief" lay-filter="demo" lay-allowclose="true" id="top_tabs" >
+			<div class="bth" style="float:left;">
+				<div class="layui-icon layui-icon-left ring" id="left_bth" style="float: left;"></div>
+			</div>
+
+			<ul class="layui-tab-title title_ul" style="left: 0px;">
+				<li class="layui-this" style="display: none;">
+					<cite></cite>
+				</li>
+			</ul>
+			<div class="bth" >
+				<div class="layui-icon layui-icon-close-fill ring" id="no_bth" title="全部关闭" style="float: right;"></div>
+			</div>
+			<div class="bth" >
+				<div class="layui-icon layui-icon-right ring" id="ring_bth" style="float: right;"></div>
+			</div>
+			<div class="layui-tab-content" style="min-height: 150px; padding: 5px 0 0 0;">
+				<div class="layui-tab-item layui-show">
+					<iframe  id="FrameID" style="width: 100%;height: 100%;"></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<input type="hidden" id="num" />
+<form class="layui-form" action="" id="form_bnt" style="display: none;">
+	<div class="layui-form-item " style="margin:0; margin-top: 15px;">
+		<label class="layui-form-label">更换皮肤</label>
+		<div class="layui-input-block">
+			<input type="radio" name="skin" value="0" title="蓝色" checked="">
+			<input type="radio" name="skin" value="1" title="黑色">
+			<!--<input type="radio" name="sex" value="禁" title="禁用" disabled="">-->
+		</div>
+	</div>
+	<div class="layui-form-item btn_two" style="text-align: center;margin-bottom:0;">
+		<div class="layui-input-block" style="padding-top: 15px;margin-left: 0;border-top: 1px solid #ddd;">
+			<button type="reset" class="layui-btn layui-btn-primary close" style="background: rgba(0,0,0,.0);border: 1px solid #5bc1fe;color: #5bc1fe;" >取消</button>
+			<button type="reset"  class="layui-btn close skin_yes" style="background: rgba(0,0,0,.0);border: 1px solid #ddd;color: #333;" >保存</button>
+		</div>
+	</div>
+</form>
+<script type="text/javascript" src="layui-v2.3.0-rc1/layui/layui.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/nav.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-3.3.1.min.js"></script>
+<script text="text/javascript" src="js/jquery/jQuery-slimScroll-1.3.8/jquery.slimscroll.min.js"></script>
+</body>
+</html>

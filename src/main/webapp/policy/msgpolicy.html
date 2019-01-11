@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>短信流量控制策略</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../cms/layui-v2.3.0-rc1/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="../cms/style/index.css" media="all" id="index_css"/>
+    <link rel="stylesheet" href="../cms/style/reo.css" media="all" id="reo_css"/>
+    <link rel="stylesheet" href="../cms/css/global.css" media="all">
+    <style>
+        .layui-nav-tree .layui-nav-child dd.layui-this, .layui-nav-tree .layui-nav-child dd.layui-this a, .layui-nav-tree .layui-this, .layui-nav-tree .layui-this > a, .layui-nav-tree .layui-this > a:hover {
+            background: #ccc !important;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+<div id="admin-navbar-side" style="display: none;"></div>
+<div class="form_lay" style="border:none;overflow: hidden;margin: 0 5px">
+    <div>
+        <div class="leftNav">
+            <p>
+                <a>所在位置：</a>
+                <span>策略管理</span>
+                <samp> > </samp>
+                <span>短信流量控制策略</span>
+            </p>
+        </div>
+        <button class="layui-btn btn_rin add_uer" style="margin-right: 0px; ">
+            <i class="layui-icon layui-icon-add-1"
+               style="font-size: 15px;padding-right: 0px;"></i>新增
+        </button>
+    </div>
+</div>
+<div style="overflow: hidden;">
+    <div class="bock" style="min-height:200px;float: left; padding-right: 0;margin: 0 5px;">
+        <table id="idTest" lay-filter="demo"></table>
+    </div>
+</div>
+
+<!-- table容器 -->
+<div id="dataTables-organization_wrapper" style="display: none;padding: 30px 20px;"></div>
+<form class="layui-form" action="" id="form_bnt" style="display: none;">
+    <div class="layui-form-item" style="margin-top: 25px; ">
+        <label class="layui-form-label">基站运营商</label>
+        <div class="layui-input-block" style="margin-left: 150px;width: 220px;">
+            <select id="domain" name="domain " class="layui_input">
+                <option value="0">电信</option>
+                <option value="1">移动</option>
+                <option value="2">联通</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">基站名称</label>
+        <div class="layui-input-block" style="margin-left: 150px;width: 220px;">
+            <input id="lacName" type="text" name="lacName" lay-verify="required" autocomplete="off"
+                   class="layui-input layui_input">
+        </div>
+        <div id="dataTables-organization_wrapperO"
+             style="display: none;max-height: 200px;    overflow-x: scroll; position: absolute;z-index: 100; background: #081343;left: 108px;"></div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">基站编号</label>
+        <div class="layui-input-block" style="margin-left: 150px;width: 220px;">
+            <input id="lac" type="text" name="lac" lay-verify="required" autocomplete="off"
+                   class="layui-input layui_input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">短信流速（条/s）</label>
+        <div class="layui-input-block" style="margin-left: 150px;width: 220px;">
+            <input id="flowRate" type="text" name="flowRate" lay-verify="required" autocomplete="off"
+                   class="layui-input layui_input" placeholder="最小值为30">
+        </div>
+    </div>
+    <p style="text-align: center;color: #666;margin-top: 20px;">0:电信、1:移动、2:联通，后跟下划线5-6位数字 列如：2_22357</p>
+</form>
+<script type="text/javascript" src="../cms/layui-v2.3.0-rc1/layui/layui.js"></script>
+<script type="" src="../cms/js/layer_windows.js"></script>
+<script type="" src="js/msgpolicy.js"></script>
+<script type="" src="../cms/js/TreeGrid/jquery-1.11.1-min.js"></script>
+<script type="" src="../cms/js/TreeGrid/jq-treegrid.js"></script>
+<script type="text/javascript" src="../cms/js/nav.js"></script>
+<script type="text/javascript" src="../cms/js/common.js"></script>
+<script type="text/html" id="barDemo">
+    <i class="layui-icon layui-icon-survey compile_form" lay-event="compile" style="margin-right: 10px;cursor: pointer;"
+       title="编辑"></i>
+    <i class="layui-icon layui-icon-delete" lay-event="delete"
+       style="margin-right: 10px;cursor: pointer;font-size: 18px;" title="删除"></i>
+</script>
+<script id="domainStatus" type="text/html">
+    {{#
+    if(    d.domain == 0) {
+    return "电信";
+    } else if (    d.domain == 1) {
+    return "移动";
+    } else if (    d.domain == 2) {
+    return "联通";
+    }
+    }}
+</script>
+<script type="text/javascript">
+    function tier(data) {
+        var datetime = '';
+        if (data != null || data != undefined) {
+            timestampToTime(data);
+
+            function timestampToTime(timestamp) {
+                var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                var Y = date.getFullYear() + '-';
+                var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                var D;
+                if (date.getDate() < 10) {
+                    D = "0" + date.getDate() + " ";
+                } else {
+                    D = date.getDate() + " ";
+                }
+                var h = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours()) + ':';
+                var m = (date.getMinutes() < 10 ? '0' + (date.getMinutes()) : date.getMinutes()) + ':';
+                var s = (date.getSeconds() < 10 ? '0' + (date.getSeconds()) : date.getSeconds());
+                datetime = Y + M + D + h + m + s;
+                return Y + M + D + h + m + s;
+            }
+
+            return datetime;
+        }
+    }
+</script>
+</body>
+</html>
